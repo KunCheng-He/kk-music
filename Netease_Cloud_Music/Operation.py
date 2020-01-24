@@ -1,13 +1,17 @@
 import os
 import requests
+import random
 from Single_Search import Music_api
 from pyquery import PyQuery as pq
 
 
 # 发送请求时的头文件
-head = {
-        "User-Agent": "Mozilla/5.0 (X11; Linux x86_64; rv:71.0) Gecko/20100101 Firefox/71.0"
-}
+heades = [
+    {"User-Agent": "Mozilla/5.0 (X11; Linux x86_64; rv:71.0) Gecko/20100101 Firefox/71.0"},
+    {"User-Agent": "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/79.0.3945.130 Safari/537.36"},
+    {"User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:72.0) Gecko/20100101 Firefox/72.0"},
+    {"User-Agent": "Mozilla/5.0 (Windows NT 10.0; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/76.0.3809.87 Safari/537.36"}
+]
 
 
 # 下载首页推荐歌单封面
@@ -21,7 +25,7 @@ def down_img(img_url_list, path='./ico'):
         exit(0)
     n = 0
     for j in img_url_list:
-        date = requests.get(j, headers=head)  # 进行请求
+        date = requests.get(j, headers=heades[random.randint(0, len(heades))])  # 进行请求
         with open("{}/{}.jpeg".format(path, n), "wb") as f:
             f.write(date.content)  # 写入数据
             # print(j)
@@ -33,7 +37,7 @@ def down_img(img_url_list, path='./ico'):
 def wyy_first_page():
     # 先对首页进行简单处理
     url = "https://music.163.com/discover"
-    response = requests.get(url, headers=head)
+    response = requests.get(url, headers=heades[random.randint(0, len(heades))])
     doc = pq(response.text)
     playlist = doc('li .u-cover.u-cover-1')  # 筛选出首页推荐的歌单
     playlist.find('.icon-play').remove()  # 移除多余的信息，便于后续提取信息
@@ -55,7 +59,7 @@ def wyy_first_page():
 # 通过歌单playlist_id获取歌单信息
 def playlist_info(playlist_id):
     url = "https://music.163.com/playlist?id=" + playlist_id
-    response = requests.get(url, headers=head)
+    response = requests.get(url, headers=heades[random.randint(0, len(heades))])
     doc = pq(response.text)
     num = int(doc('.sub.s-fc3 #playlist-track-count').text())  # 获取这个歌单的歌曲总数
     li = doc('li:lt({})'.format(num)).find('a')  # lt()获取之前的
@@ -67,7 +71,7 @@ def playlist_info(playlist_id):
 # 传入dj电台的id号，获取dj电台的音频文件
 def dj_url(dj_id):
     url = "https://api.imjad.cn/cloudmusic/?type=dj&id=" + dj_id
-    response = requests.get(url, headers=head).json()
+    response = requests.get(url, headers=heades[random.randint(0, len(heades))]).json()
     return response['data'][0]['url']
 
 
@@ -77,7 +81,7 @@ def song_url(song_id, br=320000):
     urls = "https://api.imjad.cn/cloudmusic/?type=song&id={}&br={}".format(song_id, br)
     url = requests.get(urls).json()['data'][0]['url']
     try:
-        requests.get(url, headers=head)  # 尝试请求，如果成功，反回url，版权问题不成功另外提示
+        requests.get(url, headers=heades[random.randint(0, len(heades))])  # 尝试请求，如果成功，反回url，版权问题不成功另外提示
         return url
     except requests.exceptions.MissingSchema:
         """由于版权原因，本首歌不能播放，抱歉哦......"""

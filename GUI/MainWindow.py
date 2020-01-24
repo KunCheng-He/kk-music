@@ -1,7 +1,8 @@
 # -*- coding: utf-8 -*-
-from PyQt5.QtWidgets import *
-from PyQt5.QtMultimedia import *
-from PyQt5.QtGui import *
+from PyQt5.QtWidgets import QSlider, QStyleOptionSlider, QStyle, QWidget, QHBoxLayout, QVBoxLayout, QLabel, QLineEdit
+from PyQt5.QtWidgets import QPushButton, QGridLayout, QFrame, QListWidget, QListWidgetItem, QMessageBox, QFileDialog
+from PyQt5.QtMultimedia import QMediaPlayer, QMediaPlaylist, QMediaContent
+from PyQt5.QtGui import QIcon, QPixmap
 from PyQt5.QtCore import Qt, QUrl, QSize, QTimer
 from Netease_Cloud_Music.Operation import *
 import requests
