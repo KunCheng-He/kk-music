@@ -62,10 +62,12 @@ class MainWindow(QWidget):
         self.img_all_layout = QGridLayout()  # 采用栅格布局
         for i in range(8):
             self.img = QLabel()
+            self.img.setToolTip("点击下方标题")
             self.img_file = QPixmap()
             self.img_file.loadFromData(requests.get(self.img_url_l[i]).content)
             self.img.setPixmap(self.img_file)
             self.img_title = QPushButton(self.first_title_display(self.name_list_l[i]))
+            self.img_title.setToolTip("单击")
             self.img_title.setFlat(True)
             self.img_title.setStyleSheet("color: #079775")
             self.img_title.setObjectName(self.id_list_l[i])
@@ -198,7 +200,7 @@ class MainWindow(QWidget):
         self.music_list.clear()
         self.music_list.setObjectName("search")
         for i in range(len(self.name_list_l)):
-            temp = QListWidgetItem(self.name_list_l[i] + "@---->&歌手---->  " + self.singer[i])
+            temp = QListWidgetItem(self.name_list_l[i] + "   @>&歌手---->  " + self.singer[i])
             temp.setIcon(QIcon("./ico/song.png"))
             temp.setToolTip("双击播放")
             self.music_list.addItem(temp)
