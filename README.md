@@ -8,6 +8,10 @@
 
 ![](https://pic.downk.cc/item/5e2ac01c2fb38b8c3c606c03.png)
 
+## 视频简单解说
+
+bilibili： https://www.bilibili.com/video/av84993922 
+
 ## 使用方法
 
 ```bash

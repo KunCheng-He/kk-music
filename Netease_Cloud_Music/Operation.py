@@ -1,7 +1,7 @@
 import os
 import requests
 import random
-from Single_Search import Music_api
+from Netease_Cloud_Music.Single_Search import Music_api
 from pyquery import PyQuery as pq
 
 
