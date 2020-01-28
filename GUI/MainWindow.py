@@ -33,7 +33,7 @@ class MainWindow(QWidget):
 
         # 获取首页歌单等信息
         self.img_url_l, self.name_list_l, self.id_list_l = wyy_first_page()
-        self.singer, self.singer_id = [], []
+        self.singer = []
 
         """初始化应用程序"""
         self.setWindowTitle("KK-Music")  # 设置窗口标题
@@ -196,11 +196,14 @@ class MainWindow(QWidget):
 
     # 显示搜索结果
     def show_search(self):
-        self.name_list_l, self.music_list_id, self.singer, self.singer_id = single_search(self.search.text())
+        self.name_list_l, self.music_list_id, self.singer = single_search(self.search.text())
         self.music_list.clear()
         self.music_list.setObjectName("search")
         for i in range(len(self.name_list_l)):
-            temp = QListWidgetItem(self.name_list_l[i] + "   @>&歌手---->  " + self.singer[i])
+            if self.singer[i] == "":
+                temp = QListWidgetItem(self.name_list_l[i])
+            else:
+                temp = QListWidgetItem(self.name_list_l[i] + "   @>&歌手---->  " + self.singer[i])
             temp.setIcon(QIcon("./ico/song.png"))
             temp.setToolTip("双击播放")
             self.music_list.addItem(temp)

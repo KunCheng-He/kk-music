@@ -1,8 +1,8 @@
 import os
 import requests
 import random
-from Netease_Cloud_Music.Single_Search import Music_api
 from pyquery import PyQuery as pq
+from selenium import webdriver
 
 
 # 发送请求时的头文件
@@ -90,15 +90,37 @@ def song_url(song_id, br=320000):
 
 # 单曲搜索
 def single_search(name):
-    song_list = Music_api().search(name, 0)
-    song_name, song_id, singer, singer_id = [], [], [], []
-    for i in song_list['result']['songs']:
-        song_name.append(i['name'])
-        song_id.append(i['id'])
-        singer.append(i['ar'][0]['name'])
-        singer_id.append(i['ar'][0]['id'])
-    return song_name, song_id, singer, singer_id
+    song_name, song_id, singer = [], [], []
+    options = webdriver.ChromeOptions()
+    options.add_argument('--headless')
+    browser = webdriver.Chrome(options=options)
+    url = "https://music.163.com/#/search/m/?s=" + name + "&type=1"
+    browser.get(url)
+    browser.switch_to.frame('g_iframe')
+    doc = pq(browser.page_source)
+    browser.close()
+    text = doc(".item.f-cb.h-flag")
+    text.find(".ply").remove()
+    text.find(".u-icn.u-icn-81.icn-add").remove()
+    text.find(".s-fc3").remove()
+    text.find(".mv").remove()
+    for i in text.find('a').items():
+        tag = i.attr('href').split('=')
+        if tag[0] == "/song?id":
+            song_id.append(tag[1])
+            song_name.append(i.find('b').attr('title'))
+            singer.append("")
+        elif tag[0] == "/artist?id":
+            if not singer[-1] == "":
+                singer[-1] = singer[-1] + '/' + i.text()
+            else:
+                singer[-1] = i.text()
+    return song_name, song_id, singer
 
 
 if __name__ == '__main__':
-    dj_url("2064959935")
+    a, b, c = single_search("周杰伦")
+    print(a, len(a))
+    print(b, len(b))
+    print(c, len(c))
+

@@ -1,4 +1,4 @@
-# <center>![](https://pic.downk.cc/item/5e2ab4fc2fb38b8c3c5fa4ee.jpg)kk-music</center>
+# ![](https://pic.downk.cc/item/5e2ab4fc2fb38b8c3c5fa4ee.jpg)kk-music
 
 ---
 
