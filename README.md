@@ -14,6 +14,8 @@ bilibili： https://www.bilibili.com/video/av84993922
 
 ## 使用方法
 
+如果是在码云克隆项目的话改一下地址就好了
+
 ```bash
 git clone https://github.com/byack/kk-music.git
 cd kk-music
@@ -36,7 +38,7 @@ python3 kk-music.py
 ## 感谢
 
 + 图标来源：(https://icons8.cn/) (https://www.easyicon.net/) 内容均来源与网络，如有侵权，联系告知，我会立即删除
-+ 网易云反爬代码参考：(https://blog.csdn.net/qq_36779888/article/details/90738012) 感谢大佬
++ 网易云反爬代码参考：(https://blog.csdn.net/qq_36779888/article/details/90738012) 感谢大佬 (后续版本在我自己没搞懂网易云的加密机制之前，这一部分改用selenium来实现，自己写的)
 + qt5滑动条禁用点击事件代码参考：(https://github.com/PyQt5/PyQt/tree/master/QSlider) 
 + 搜索框输入中文问题，链接如上，感谢大佬
 
