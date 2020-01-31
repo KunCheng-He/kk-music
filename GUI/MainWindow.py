@@ -3,8 +3,9 @@ from PyQt5.QtWidgets import QSlider, QStyleOptionSlider, QStyle, QWidget, QHBoxL
 from PyQt5.QtWidgets import QPushButton, QGridLayout, QFrame, QListWidget, QListWidgetItem, QMessageBox, QFileDialog
 from PyQt5.QtMultimedia import QMediaPlayer, QMediaPlaylist, QMediaContent
 from PyQt5.QtGui import QIcon, QPixmap
-from PyQt5.QtCore import Qt, QUrl, QSize, QTimer
+from PyQt5.QtCore import Qt, QUrl, QSize, QTimer, QCoreApplication
 from Netease_Cloud_Music.Operation import *
+from selenium import webdriver
 import requests
 import os
 
@@ -30,6 +31,11 @@ class myQSlider(QSlider):
 class MainWindow(QWidget):
     def __init__(self):
         super().__init__()
+
+        # 提前启动浏览器程序，防止每次搜索歌单时创建会比较慢
+        options = webdriver.ChromeOptions()
+        options.add_argument('--headless')
+        self.browser = webdriver.Chrome(options=options)
 
         # 获取首页歌单等信息
         self.img_url_l, self.name_list_l, self.id_list_l = wyy_first_page()
@@ -108,6 +114,13 @@ class MainWindow(QWidget):
         self.disc_title.setFixedSize(100, 64)
         self.line = QFrame()  # 创建一条分割线
         self.line.setFrameShape(QFrame.VLine)
+        self.downloads = QPushButton()  # 下载按键
+        self.downloads.setToolTip("下载当前播放歌曲")
+        self.downloads.setFlat(True)
+        self.downloads.setIcon(QIcon("./ico/downloads.png"))
+        self.downloads.setIconSize(QSize(48, 48))
+        self.downloads.setFixedSize(48, 48)
+        self.downloads.clicked.connect(self.downloads_music)
         self.bt1 = QPushButton()
         self.bt1.setToolTip("上一首")
         self.bt1.setFlat(True)
@@ -141,6 +154,7 @@ class MainWindow(QWidget):
         self.bt_layout.addWidget(self.disc)
         self.bt_layout.addWidget(self.disc_title)
         self.bt_layout.addWidget(self.line)
+        self.bt_layout.addWidget(self.downloads)
         self.bt_layout.addWidget(self.bt1)
         self.bt_layout.addWidget(self.bt2)
         self.bt_layout.addWidget(self.bt3)
@@ -192,11 +206,12 @@ class MainWindow(QWidget):
         elif id_str[1] == 'd':  # 判断点击的类型是dj电台
             self.player.setMedia(QMediaContent(QUrl(dj_url(id_num))))  # 设置音频网址
             self.disc_title.setText("欢迎收听\n电台栏目")
+            self.disc.setObjectName('')
             self.set_music_time_line()
 
     # 显示搜索结果
     def show_search(self):
-        self.name_list_l, self.music_list_id, self.singer = single_search(self.search.text())
+        self.name_list_l, self.music_list_id, self.singer = single_search(self.browser, self.search.text())
         self.music_list.clear()
         self.music_list.setObjectName("search")
         for i in range(len(self.name_list_l)):
@@ -212,6 +227,7 @@ class MainWindow(QWidget):
     def music_list_song(self):
         index = self.music_list.currentRow()
         music_id = self.music_list_id[index]
+        # 双击播放的是本地音乐
         if self.music_list.objectName() == "music_folder":
             self.player.setMedia(QMediaContent(QUrl.fromLocalFile(music_id)))
             self.set_disc_title()
@@ -269,6 +285,17 @@ class MainWindow(QWidget):
             self.volume.setPixmap(QPixmap("./ico/center_volume.png"))
         else:
             self.volume.setPixmap(QPixmap("./ico/high_volume.png"))
+
+    # 下载当前播放歌曲(电台我觉得需求不大，不提供下载)
+    def downloads_music(self):
+        self.music_folder_path = QFileDialog.getExistingDirectory(self, "下载保存路径", self.music_folder_path)
+        if self.music_folder_path != '':
+            if self.disc.objectName() != '':
+                with open(self.music_folder_path + '/' + self.disc_title.text() + '.mp3', 'wb') as f:
+                    f.write(requests.get(song_url(self.disc.objectName())).content)
+                QMessageBox.about(self, "OK", self.disc_title.text() + "下载完毕")
+            else:
+                QMessageBox.about(self, "抱歉", "当前无歌曲正在播放\n电台音频不支持下载\n如果需要下载电台音频，可向开发者反应")
 
     # 暂停功能或则继续播放
     def stop_or_start_song(self):
@@ -358,6 +385,13 @@ class MainWindow(QWidget):
             self.disc_title.setText(self.name_list_l[index])
         elif self.music_list.objectName() == "search":
             self.disc_title.setText(self.name_list_l[index] + '\n' + self.singer[index])
+        # 将网络歌曲的ID设置到disc，方便下载当前播放歌曲
+        self.disc.setObjectName(self.music_list_id[index])
+
+    # 关闭界面时退出后天浏览器，防止占用系统资源
+    def closeEvent(self, QCloseEvent):
+        self.browser.close()
+        QCoreApplication.instance().quit()
 
 
 if __name__ == '__main__':

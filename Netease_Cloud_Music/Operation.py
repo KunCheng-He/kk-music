@@ -2,7 +2,6 @@ import os
 import requests
 import random
 from pyquery import PyQuery as pq
-from selenium import webdriver
 
 
 # 发送请求时的头文件
@@ -89,16 +88,13 @@ def song_url(song_id, br=320000):
 
 
 # 单曲搜索
-def single_search(name):
+def single_search(browser, name):
     song_name, song_id, singer = [], [], []
-    options = webdriver.ChromeOptions()
-    options.add_argument('--headless')
-    browser = webdriver.Chrome(options=options)
     url = "https://music.163.com/#/search/m/?s=" + name + "&type=1"
+    browser.get("data:,")  # 不加这一行第二次之后的搜索需要回车两次
     browser.get(url)
     browser.switch_to.frame('g_iframe')
     doc = pq(browser.page_source)
-    browser.close()
     text = doc(".item.f-cb.h-flag")
     text.find(".ply").remove()
     text.find(".u-icn.u-icn-81.icn-add").remove()

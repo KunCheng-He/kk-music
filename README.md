@@ -32,6 +32,7 @@ python3 kk-music.py
 ## 一些可能的问题
 
 + 搜索框无法输入中文：（https://bbs.deepin.org/forum.php?mod=viewthread&tid=181772）
++ 搜索错误：目前搜索使用的是selenium来爬取数据，所以需要安装相关的浏览器驱动，默认程序使用的是chromedriver，如果使用的是火狐浏览器，需要安装geckodriver，安装方法大家可以谷歌一下，都比较简单。在Linux上就是一条安装命令就可以了。
 
 *欢迎邮箱反馈，我没有做详细的测试*
 
