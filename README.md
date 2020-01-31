@@ -14,7 +14,13 @@ bilibili： https://www.bilibili.com/video/av84993922
 
 ## 使用方法
 
-如果是在码云克隆项目的话改一下地址就好了
+**先安装chromedriver，搜索时需要用到，如果想使用其它的浏览器驱动，安装完成后，只需要修改 GUI 文件夹下主窗口中以下代码**
+
+```python
+self.browser = webdriver.Chrome(options=options)  # 将这一行中的Chrome改为你选择的浏览器
+```
+
+克隆本项目，如果是在码云克隆项目的话改一下地址就好了
 
 ```bash
 git clone https://github.com/byack/kk-music.git
