@@ -10,7 +10,6 @@ PyQt5-sip==12.7.0
 pyquery==1.4.1
 PyYAML==5.2
 requests==2.22.0
-selenium==3.141.0
 shellescape==3.4.1
 six==1.14.0
 urllib3==1.25.7

@@ -79,44 +79,22 @@ def song_url(song_id, br=320000):
     # 通过urls获取歌曲下载链接
     urls = "https://api.imjad.cn/cloudmusic/?type=song&id={}&br={}".format(song_id, br)
     url = requests.get(urls).json()['data'][0]['url']
-    try:
-        requests.get(url, headers=heades[random.randint(0, len(heades)-1)])  # 尝试请求，如果成功，反回url，版权问题不成功另外提示
-        return url
-    except requests.exceptions.MissingSchema:
-        """由于版权原因，本首歌不能播放，抱歉哦......"""
-        return "No"
+    return url
 
 
 # 单曲搜索
-def single_search(browser, name):
+def single_search(name):
     song_name, song_id, singer = [], [], []
-    url = "https://music.163.com/#/search/m/?s=" + name + "&type=1"
-    browser.get("data:,")  # 不加这一行第二次之后的搜索需要回车两次
-    browser.get(url)
-    browser.switch_to.frame('g_iframe')
-    doc = pq(browser.page_source)
-    text = doc(".item.f-cb.h-flag")
-    text.find(".ply").remove()
-    text.find(".u-icn.u-icn-81.icn-add").remove()
-    text.find(".s-fc3").remove()
-    text.find(".mv").remove()
-    for i in text.find('a').items():
-        tag = i.attr('href').split('=')
-        if tag[0] == "/song?id":
-            song_id.append(tag[1])
-            song_name.append(i.find('b').attr('title'))
-            singer.append("")
-        elif tag[0] == "/artist?id":
-            if not singer[-1] == "":
-                singer[-1] = singer[-1] + '/' + i.text()
-            else:
-                singer[-1] = i.text()
-    return song_name, song_id, singer
+    url = "http://music.163.com/api/search/get/web?csrf_token=hlpretag=&hlposttag=&s={" + name + "}&type=1&offset=0&total=true&limit=30"
+    data = requests.get(url, headers=heades[random.randint(0, len(heades)-1)])
+    songs = data.json()['result']['songs']
+    for i in songs:
+        song_name.append(i['name'] + "  <-歌手-->  " + i['artists'][0]['name'])
+        song_id.append(str(i['id']))
+    return song_name, song_id
 
 
 if __name__ == '__main__':
-    a, b, c = single_search("周杰伦")
-    print(a, len(a))
-    print(b, len(b))
-    print(c, len(c))
-
+    a, b = single_search("你好")
+    print(a)
+    print(b)

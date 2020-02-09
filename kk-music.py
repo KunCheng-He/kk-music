@@ -5,13 +5,13 @@
     还有一些网易云接口均来源于网络，在次表示感谢
 """
 
-from GUI.MainWindow import MainWindow
-from PyQt5.QtWidgets import *
+from PyQt5.QtWidgets import QApplication, QWidget
+from GUI.main_window import Main_window
 import sys
 
 
 if __name__ == '__main__':
     app = QApplication(sys.argv)
-    main = MainWindow()
-    main.show()
+    ui = Main_window()
+    ui.show()
     sys.exit(app.exec_())
