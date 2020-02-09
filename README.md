@@ -6,19 +6,13 @@
 
 我的系统是manjaro
 
-![](https://pic.downk.cc/item/5e2ac01c2fb38b8c3c606c03.png)
+![](https://pic.downk.cc/item/5e3fe9462fb38b8c3c5287c7.png)
 
 ## 视频简单解说
 
-bilibili： https://www.bilibili.com/video/av84993922 
+bilibili第一次解说： https://www.bilibili.com/video/av84993922 
 
 ## 使用方法
-
-**先安装chromedriver，搜索时需要用到，如果想使用其它的浏览器驱动，安装完成后，只需要修改 GUI 文件夹下主窗口中以下代码**
-
-```python
-self.browser = webdriver.Chrome(options=options)  # 将这一行中的Chrome改为你选择的浏览器
-```
 
 克隆本项目，如果是在码云克隆项目的话改一下地址就好了
 
@@ -29,7 +23,7 @@ pip3 install -r requirements.txt
 python3 kk-music.py
 ```
 
-等我研究一下如何直接打包成一个可执行文件，打包完成后我会将文件上传上来的。
+可执行文件还未打包出来
 
 ## 概述
 
@@ -38,15 +32,37 @@ python3 kk-music.py
 ## 一些可能的问题
 
 + 搜索框无法输入中文：（https://bbs.deepin.org/forum.php?mod=viewthread&tid=181772）
-+ 搜索错误：目前搜索使用的是selenium来爬取数据，所以需要安装相关的浏览器驱动，默认程序使用的是chromedriver，如果使用的是火狐浏览器，需要安装geckodriver，安装方法大家可以谷歌一下，都比较简单。在Linux上就是一条安装命令就可以了。
 
 *欢迎邮箱反馈，我没有做详细的测试*
+
+## 暂时我遇见的还未解决的Bug
+
++ 先点击播放首页电台，然后点击首页歌单或是搜索歌曲，出现播放无声，需要暂停再播放，无声时进度也是进展的，暂停播放后等同于重头播放，会导致进度对不上，需要拖动进度条矫正进度显示
+
++ 先点击歌单，然后播放歌单中的歌曲，然后使用搜索功能，报错为：非法指令
+
+    ```
+    Process finished with exit code 132 (interrupted by signal 4: SIGILL)
+    ```
+
++ 首次运行下一首线程时，终端会有如下报告，但运行暂时无异常
+
+    ```
+    QObject::connect: Cannot queue arguments of type 'QItemSelection'
+    (Make sure 'QItemSelection' is registered using qRegisterMetaType().)
+    QObject::connect: Cannot queue arguments of type 'QItemSelection'
+    (Make sure 'QItemSelection' is registered using qRegisterMetaType().)
+    ```
+
++ 先加入歌单，播放歌单的时候，会没有声音，需要暂停之后再播放，每一首切换都是如此。添加延时解决
+
++ **哪位大佬如果看出了问题所在教教我吧，感谢**
 
 ## 感谢
 
 + 图标来源：(https://icons8.cn/) (https://www.easyicon.net/) 内容均来源与网络，如有侵权，联系告知，我会立即删除
-+ 网易云反爬代码参考：(https://blog.csdn.net/qq_36779888/article/details/90738012) 感谢大佬 (后续版本在我自己没搞懂网易云的加密机制之前，这一部分改用selenium来实现，自己写的)
-+ qt5滑动条禁用点击事件代码参考：(https://github.com/PyQt5/PyQt/tree/master/QSlider) 
++ 网易云反爬代码参考：(https://blog.csdn.net/qq_36779888/article/details/90738012) 感谢大佬 (已经找到直接可用的API)
++ qt5滑动条禁用点击事件代码参考：(https://github.com/PyQt5/PyQt/tree/master/QSlider) (现在采用的其它方法禁用点击跳转，将点击跳转的值设置为0，就可以达到禁用点击跳转的效果)
 + 搜索框输入中文问题，链接如上，感谢大佬
 
 可能有些遗漏，表示感谢
