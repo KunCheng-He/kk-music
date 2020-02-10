@@ -54,8 +54,6 @@ python3 kk-music.py
     (Make sure 'QItemSelection' is registered using qRegisterMetaType().)
     ```
 
-+ 先加入歌单，播放歌单的时候，会没有声音，需要暂停之后再播放，每一首切换都是如此。添加延时解决
-
 + **哪位大佬如果看出了问题所在教教我吧，感谢**
 
 ## 感谢

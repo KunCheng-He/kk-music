@@ -418,7 +418,7 @@ class Main_window(QWidget, Ui_kk_music):
         else:
             self.change_music()
             self.list_view_song()
-            while self.copyright_flag:  # 防止歌单中下一首存在没有版权的歌曲
+            while self.copyright_flag:  # 防止歌单中下一首是没有版权的歌曲导致播放停止
                 self.change_music()
                 self.list_view_song()
 
