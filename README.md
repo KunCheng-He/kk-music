@@ -12,6 +12,10 @@
 
 bilibili第一次解说： https://www.bilibili.com/video/av84993922 
 
+bilibili第二次更新视频介绍：
+
+&quot;blob:moz-extension://dd51471f-20ca-43d3-9757-d7cbd55c77b7/91fe697e-521b-4a0c-9fd5-7d32997bd309&quot
+
 ## 使用方法
 
 克隆本项目，如果是在码云克隆项目的话改一下地址就好了
