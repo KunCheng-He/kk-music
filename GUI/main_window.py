@@ -179,7 +179,7 @@ class Main_window(QWidget, Ui_kk_music):
                 time_long = self.player.duration()  # 获取到实际这首歌的播放长度
                 self.time_line.setRange(0, int(time_long / 1000) + 1)  # 设置进度条范围
                 self.time_next.setText(  # 设置音频长度的显示
-                    str(int(time_long / 1000) // 60).zfill(2) + ':' + str(int(time_long / 1000) % 60 + 1).zfill(2)
+                    str(int(time_long / 1000) // 60).zfill(2) + ':' + str(int(time_long / 1000) % 60).zfill(2)
                 )
 
     # 获取首页数据
