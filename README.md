@@ -14,6 +14,14 @@ bilibili第一次解说： https://www.bilibili.com/video/av84993922
 
 bilibili第二次更新视频介绍：https://www.bilibili.com/video/av88042021/
 
+## 可执行包下载
+
+由于在github上传打包好的文件超过10MB不允许上传，所以，本项目仍然会继续更新，可以自行打包，也可以到码云平台下载：https://gitee.com/byack/kk-music/releases
+
+目前我只打包了window平台的进行尝试
+
++ 解压压缩包后，双击exe文件就可以运行了，请保证解压文件目录的完整性，ico文件夹中包含了图标文件，mu_playlist文件夹为自己的歌单，均要与可执行文件在统一路径下
+
 ## 使用方法
 
 克隆本项目，如果是在码云克隆项目的话改一下地址就好了
@@ -24,8 +32,6 @@ cd kk-music
 pip3 install -r requirements.txt
 python3 kk-music.py
 ```
-
-可执行文件还未打包出来
 
 ## 概述
 
