@@ -1,3 +1,8 @@
+# 公告
+我在本地的git怎么都提交不上来，这个仓库后续不再更新，项目如果后续更新只会提交到码云：https://gitee.com/byack/kk-music 。抱歉
+
+---
+
 # ![](https://pic.downk.cc/item/5e2ab4fc2fb38b8c3c5fa4ee.jpg)kk-music
 
 ---
